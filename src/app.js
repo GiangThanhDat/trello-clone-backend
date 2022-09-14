@@ -1,8 +1,7 @@
 import express from "express"
-import { ENV } from "./config/constant.js"
-import { connect } from "./config/mongodb.js"
-
-const app = express()
+import { ENV } from "./config/constant"
+import { connect } from "./config/mongodb"
+import { apiV1 } from "./routes/v1"
 
 connect()
   .then(() => console.log("MongoDB Connected successfully"))
@@ -13,9 +12,10 @@ connect()
   })
 
 const bootServer = () => {
-  app.get("/", (req, res) => {
-    res.end("<h1>Hello word - hi hi hoho</h1><hr />")
-  })
+  const app = express()
+
+  app.use("/v1/", apiV1)
+  app.use(express.json())
 
   app.listen(ENV.APP_PORT, ENV.APP_HOST, () => {
     // eslint-disable-next-line no-console

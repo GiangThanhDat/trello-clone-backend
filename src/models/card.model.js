@@ -1,27 +1,26 @@
 import Joi from "joi"
 import { getInstanceConnection } from "../config/mongodb"
 
-const connectionInstance = getInstanceConnection()
+const cardCollectionName = "card"
 
-const columnCollectionName = "column"
-
-const columnCollectionSchema = Joi.object({
+const cardCollectionSchema = Joi.object({
   boardId: Joi.string().required(),
+  columnId: Joi.string().required(),
   title: Joi.string().required().min(3).max(20),
-  cardOrder: Joi.array().items(Joi.string()).default([]),
+  cover: Joi.string().default(null),
   createdAt: Joi.timestamp().default(Date.now()),
   updatedAt: Joi.timestamp().default(null),
   _destroy: Joi.boolean().default(false),
 })
 
 const validateSchema = async (data) =>
-  await columnCollectionSchema.validateAsync(data, { abortEarly: false })
+  await cardCollectionSchema.validateAsync(data, { abortEarly: false })
 
 const createNew = async (data) => {
   try {
     const validValues = await validateSchema(data)
-    const result = connectionInstance
-      .collection(columnCollectionName)
+    const result = getInstanceConnection()
+      .collection(cardCollectionName)
       .insertOne(validValues)
 
     return result.ops[0]
@@ -30,4 +29,4 @@ const createNew = async (data) => {
   }
 }
 
-export const columnModel = { createNew }
+export const cardModel = { createNew }
