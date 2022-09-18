@@ -1,4 +1,5 @@
 import Joi from "joi"
+import { ObjectId } from "mongodb"
 import { BOARD } from "../config/constant"
 import { getInstanceConnection } from "../config/mongodb"
 
@@ -42,4 +43,21 @@ const createNew = async (data) => {
   }
 }
 
-export const BoardModel = { createNew }
+const update = async (id, data) => {
+  try {
+    const boardCollection =
+      getInstanceConnection().collection(boardCollectionName)
+
+    const result = await boardCollection.findOneAndUpdate(
+      { _id: ObjectId(id) },
+      { $set: data },
+      { returnOriginal: false }
+    )
+
+    return result.value
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+export const BoardModel = { createNew, update }

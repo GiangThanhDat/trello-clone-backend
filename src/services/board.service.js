@@ -9,4 +9,16 @@ const createNew = async (data) => {
   }
 }
 
-export const BoardService = { createNew }
+const update = async (id, data) => {
+  try {
+    const result = await BoardModel.update(id, {
+      ...data,
+      updatedAt: Date.now(),
+    })
+    return result
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+export const BoardService = { createNew, update }
