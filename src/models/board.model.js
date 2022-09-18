@@ -1,10 +1,14 @@
 import Joi from "joi"
+import { BOARD } from "../config/constant"
 import { getInstanceConnection } from "../config/mongodb"
 
 const boardCollectionName = "board"
 
 const boardCollectionSchema = Joi.object({
-  title: Joi.string().required().min(3).max(20),
+  title: Joi.string()
+    .required()
+    .min(BOARD.TITLE_MIN_LENGTH)
+    .max(BOARD.TITLE_MAX_LENGTH),
   columnOrder: Joi.array().items(Joi.string()).default([]),
   createdAt: Joi.date().timestamp().default(Date.now()),
   updatedAt: Joi.date().timestamp().default(null),
