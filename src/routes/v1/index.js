@@ -1,6 +1,7 @@
 import express from "express"
 import { HttpStatusCode } from "../../utilities/constant"
-import { boardRoutes } from "./board.route"
+import { BoardRoutes } from "./board.route"
+import { CardRoutes } from "./card.route"
 
 const router = express.Router()
 
@@ -14,6 +15,11 @@ router.get("/status", (req, res) =>
 /**
  * BOARD API
  */
-router.use("/board", boardRoutes)
+router.use("/board", BoardRoutes)
+
+/**
+ * CARD API
+ */
+router.use("/card", CardRoutes)
 
 export const apiV1 = router

@@ -11,4 +11,4 @@ router
   //   })
   .post(BoardValidation.createNew, BoardController.createNew)
 
-export const boardRoutes = router
+export const BoardRoutes = router

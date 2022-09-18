@@ -12,8 +12,8 @@ const cardCollectionSchema = Joi.object({
     .min(CARD.TITLE_MIN_LENGTH)
     .max(CARD.TITLE_MAX_LENGTH),
   cover: Joi.string().default(null),
-  createdAt: Joi.timestamp().default(Date.now()),
-  updatedAt: Joi.timestamp().default(null),
+  createdAt: Joi.date().timestamp().default(Date.now()),
+  updatedAt: Joi.date().timestamp().default(null),
   _destroy: Joi.boolean().default(false),
 })
 
@@ -43,4 +43,4 @@ const createNew = async (data) => {
   }
 }
 
-export const cardModel = { createNew }
+export const CardModel = { createNew }
