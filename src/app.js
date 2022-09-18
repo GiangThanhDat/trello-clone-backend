@@ -13,14 +13,11 @@ connect()
 
 const bootServer = () => {
   const app = express()
-
-  app.use("/v1/", apiV1)
   app.use(express.json())
 
+  app.use("/v1", apiV1)
   app.listen(ENV.APP_PORT, ENV.APP_HOST, () => {
     // eslint-disable-next-line no-console
-    console.log(
-      `hello trello clone! I'm running on ${ENV.APP_HOST}:${ENV.APP_PORT}`
-    )
+    console.log(`Trello-App clone running on ${ENV.APP_HOST}:${ENV.APP_PORT}`)
   })
 }

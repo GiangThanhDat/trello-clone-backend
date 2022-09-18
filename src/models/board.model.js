@@ -18,11 +18,20 @@ const createNew = async (data) => {
   try {
     const validValues = await validateSchema(data)
 
-    const result = getInstanceConnection()
-      .collection(boardCollectionName)
-      .insertOne(validValues)
+    const boardCollection =
+      getInstanceConnection().collection(boardCollectionName)
 
-    return result.ops[0]
+    const { insertedId } = await boardCollection.insertOne(validValues)
+
+    const insertedBoard = await boardCollection.findOne({
+      _id: insertedId,
+    })
+
+    if (!insertedBoard) {
+      throw new Error("Insert new board failure")
+    }
+
+    return insertedBoard
   } catch (error) {
     throw new Error(error)
   }
