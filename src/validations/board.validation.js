@@ -7,7 +7,8 @@ const createNew = async (req, res, next) => {
     title: Joi.string()
       .required()
       .min(BOARD.TITLE_MIN_LENGTH)
-      .max(BOARD.TITLE_MAX_LENGTH),
+      .max(BOARD.TITLE_MAX_LENGTH)
+      .trim(),
   })
 
   try {

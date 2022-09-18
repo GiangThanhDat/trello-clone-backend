@@ -10,7 +10,8 @@ const cardCollectionSchema = Joi.object({
   title: Joi.string()
     .required()
     .min(CARD.TITLE_MIN_LENGTH)
-    .max(CARD.TITLE_MAX_LENGTH),
+    .max(CARD.TITLE_MAX_LENGTH)
+    .trim(),
   cover: Joi.string().default(null),
   createdAt: Joi.date().timestamp().default(Date.now()),
   updatedAt: Joi.date().timestamp().default(null),

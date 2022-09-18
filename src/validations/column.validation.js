@@ -1,15 +1,14 @@
 import Joi from "joi"
-import { CARD } from "../config/constant"
+import { COLUMN } from "../config/constant"
 import { HttpStatusCode } from "../utilities/constant"
 
 const createNew = async (req, res, next) => {
   const condition = Joi.object({
     boardId: Joi.string().required(),
-    columnId: Joi.string().required(),
     title: Joi.string()
       .required()
-      .min(CARD.TITLE_MIN_LENGTH)
-      .max(CARD.TITLE_MAX_LENGTH)
+      .min(COLUMN.TITLE_MIN_LENGTH)
+      .max(COLUMN.TITLE_MAX_LENGTH)
       .trim(),
   })
 
@@ -23,4 +22,4 @@ const createNew = async (req, res, next) => {
   }
 }
 
-export const CardValidation = { createNew }
+export const ColumnValidation = { createNew }

@@ -9,10 +9,11 @@ const columnCollectionSchema = Joi.object({
   title: Joi.string()
     .required()
     .min(COLUMN.TITLE_MIN_LENGTH)
-    .max(COLUMN.TITLE_MAX_LENGTH),
+    .max(COLUMN.TITLE_MAX_LENGTH)
+    .trim(),
   cardOrder: Joi.array().items(Joi.string()).default([]),
-  createdAt: Joi.timestamp().default(Date.now()),
-  updatedAt: Joi.timestamp().default(null),
+  createdAt: Joi.date().timestamp().default(Date.now()),
+  updatedAt: Joi.date().timestamp().default(null),
   _destroy: Joi.boolean().default(false),
 })
 
@@ -42,4 +43,4 @@ const createNew = async (data) => {
   }
 }
 
-export const columnModel = { createNew }
+export const ColumnModel = { createNew }
