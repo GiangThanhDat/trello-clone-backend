@@ -1,13 +1,14 @@
 import Joi from "joi"
-import { BOARD } from "../config/constant"
+import { COLUMN } from "../config/constant"
 import { HttpStatusCode } from "../utilities/constant"
 
 const createNew = async (req, res, next) => {
   const condition = Joi.object({
+    boardId: Joi.string().required(),
     title: Joi.string()
       .required()
-      .min(BOARD.TITLE_MIN_LENGTH)
-      .max(BOARD.TITLE_MAX_LENGTH)
+      .min(COLUMN.TITLE_MIN_LENGTH)
+      .max(COLUMN.TITLE_MAX_LENGTH)
       .trim(),
   })
 
@@ -23,9 +24,10 @@ const createNew = async (req, res, next) => {
 
 const update = async (req, res, next) => {
   const condition = Joi.object({
+    boardId: Joi.string().required(),
     title: Joi.string()
-      .min(BOARD.TITLE_MIN_LENGTH)
-      .max(BOARD.TITLE_MAX_LENGTH)
+      .min(COLUMN.TITLE_MIN_LENGTH)
+      .max(COLUMN.TITLE_MAX_LENGTH)
       .trim(),
   })
 
@@ -39,4 +41,4 @@ const update = async (req, res, next) => {
   }
 }
 
-export const BoardValidation = { createNew, update }
+export const ColumnValidation = { createNew, update }

@@ -1,4 +1,5 @@
 import Joi from "joi"
+import { CARD } from "../config/constant"
 import { getInstanceConnection } from "../config/mongodb"
 
 const cardCollectionName = "card"
@@ -6,10 +7,14 @@ const cardCollectionName = "card"
 const cardCollectionSchema = Joi.object({
   boardId: Joi.string().required(),
   columnId: Joi.string().required(),
-  title: Joi.string().required().min(3).max(20),
+  title: Joi.string()
+    .required()
+    .min(CARD.TITLE_MIN_LENGTH)
+    .max(CARD.TITLE_MAX_LENGTH)
+    .trim(),
   cover: Joi.string().default(null),
-  createdAt: Joi.timestamp().default(Date.now()),
-  updatedAt: Joi.timestamp().default(null),
+  createdAt: Joi.date().timestamp().default(Date.now()),
+  updatedAt: Joi.date().timestamp().default(null),
   _destroy: Joi.boolean().default(false),
 })
 
@@ -19,14 +24,24 @@ const validateSchema = async (data) =>
 const createNew = async (data) => {
   try {
     const validValues = await validateSchema(data)
-    const result = getInstanceConnection()
-      .collection(cardCollectionName)
-      .insertOne(validValues)
 
-    return result.ops[0]
+    const cardCollection =
+      getInstanceConnection().collection(cardCollectionName)
+
+    const { insertedId } = await cardCollection.insertOne(validValues)
+
+    const insertedCard = await cardCollection.findOne({
+      _id: insertedId,
+    })
+
+    if (!insertedCard) {
+      throw new Error("Insert new card failure")
+    }
+
+    return insertedCard
   } catch (error) {
     console.log(error)
   }
 }
 
-export const cardModel = { createNew }
+export const CardModel = { createNew }
