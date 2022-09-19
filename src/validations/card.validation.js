@@ -23,4 +23,24 @@ const createNew = async (req, res, next) => {
   }
 }
 
-export const CardValidation = { createNew }
+const update = async (req, res, next) => {
+  const condition = Joi.object({
+    boardId: Joi.string().required(),
+    columnId: Joi.string().required(),
+    title: Joi.string()
+      .min(CARD.TITLE_MIN_LENGTH)
+      .max(CARD.TITLE_MAX_LENGTH)
+      .trim(),
+  })
+
+  try {
+    await condition.validateAsync(req.body, { abortEarly: false })
+    next()
+  } catch (error) {
+    res.status(HttpStatusCode.BAD_REQUEST).json({
+      errors: new Error(error).message,
+    })
+  }
+}
+
+export const CardValidation = { createNew, update }

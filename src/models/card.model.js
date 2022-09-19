@@ -1,4 +1,5 @@
 import Joi from "joi"
+import { ObjectId } from "mongodb"
 import { CARD } from "../config/constant"
 import { getInstanceConnection } from "../config/mongodb"
 
@@ -28,7 +29,13 @@ const createNew = async (data) => {
     const cardCollection =
       getInstanceConnection().collection(cardCollectionName)
 
-    const { insertedId } = await cardCollection.insertOne(validValues)
+    const insertedValues = {
+      ...validValues,
+      boardId: ObjectId(validValues.boardId),
+      columnId: ObjectId(validValues.columnId),
+    }
+
+    const { insertedId } = await cardCollection.insertOne(insertedValues)
 
     const insertedCard = await cardCollection.findOne({
       _id: insertedId,
@@ -44,4 +51,21 @@ const createNew = async (data) => {
   }
 }
 
-export const CardModel = { createNew }
+const update = async (id, data) => {
+  try {
+    const cardCollection =
+      getInstanceConnection().collection(cardCollectionName)
+
+    const result = await cardCollection.findOneAndUpdate(
+      { _id: ObjectId(id) },
+      { $set: data },
+      { returnOriginal: false }
+    )
+
+    return result.value
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+export const CardModel = { createNew, update }
