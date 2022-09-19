@@ -60,4 +60,21 @@ const update = async (id, data) => {
   }
 }
 
-export const BoardModel = { createNew, update }
+const pushColumnOrder = async (boardId, columnId) => {
+  try {
+    const boardCollection =
+      getInstanceConnection().collection(boardCollectionName)
+
+    const result = await boardCollection.findOneAndUpdate(
+      { _id: ObjectId(boardId) },
+      { $push: { columnOrder: columnId } },
+      { returnOriginal: false }
+    )
+
+    return result.value
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+export const BoardModel = { createNew, update, pushColumnOrder }
