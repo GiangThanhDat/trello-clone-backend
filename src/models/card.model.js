@@ -68,4 +68,4 @@ const update = async (id, data) => {
   }
 }
 
-export const CardModel = { createNew, update }
+export const CardModel = { cardCollectionName, createNew, update }
