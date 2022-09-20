@@ -2,6 +2,8 @@ import Joi from "joi"
 import { ObjectId } from "mongodb"
 import { BOARD } from "../config/constant"
 import { getInstanceConnection } from "../config/mongodb"
+import { CardModel } from "./card.model"
+import { ColumnModel } from "./column.model"
 
 const boardCollectionName = "board"
 
@@ -60,4 +62,80 @@ const update = async (id, data) => {
   }
 }
 
-export const BoardModel = { createNew, update }
+const pushColumnOrder = async (boardId, columnId) => {
+  try {
+    const boardCollection =
+      getInstanceConnection().collection(boardCollectionName)
+
+    const result = await boardCollection.findOneAndUpdate(
+      { _id: ObjectId(boardId) },
+      { $push: { columnOrder: columnId } },
+      { returnOriginal: false }
+    )
+
+    return result.value
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+const getBoardById = async (id) => {
+  try {
+    const result = await getInstanceConnection()
+      .collection(boardCollectionName)
+      .aggregate([
+        { $match: { _id: ObjectId(id) } },
+        {
+          $lookup: {
+            from: ColumnModel.columnCollectionName,
+            localField: "_id",
+            foreignField: "boardId",
+            as: "columns",
+          },
+        },
+        {
+          $unwind: {
+            path: "$columns",
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+        {
+          $lookup: {
+            from: CardModel.cardCollectionName,
+            localField: `columns._id`,
+            foreignField: "columnId",
+            as: "cards",
+          },
+        },
+        {
+          $group: {
+            _id: "$_id",
+            title: { $first: "$title" },
+            columnOrder: { $first: "$columnOrder" },
+            createdAt: { $first: "$createdAt" },
+            updatedAt: { $first: "$updatedAt" },
+            _destroy: { $first: "$_destroy" },
+            columns: {
+              $push: {
+                _id: "$columns._id",
+                boardId: "$columns.boardId",
+                title: "$columns.title",
+                createdAt: "$columns.createdAt",
+                updatedAt: "$columns.updatedAt",
+                _destroy: "$columns._destroy",
+                cardOrder: "$columns.cardOrder",
+                cards: "$cards",
+              },
+            },
+          },
+        },
+      ])
+      .toArray()
+    console.log("result", result)
+    return result
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+export const BoardModel = { createNew, update, pushColumnOrder, getBoardById }

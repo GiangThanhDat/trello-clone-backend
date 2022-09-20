@@ -21,4 +21,14 @@ const update = async (id, data) => {
   }
 }
 
-export const BoardService = { createNew, update }
+const getBoardById = async (id) => {
+  try {
+    const result = await BoardModel.getBoardById(id)
+
+    return result
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+export const BoardService = { createNew, update, getBoardById }

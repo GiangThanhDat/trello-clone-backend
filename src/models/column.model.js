@@ -28,7 +28,12 @@ const createNew = async (data) => {
     const columnCollection =
       getInstanceConnection().collection(columnCollectionName)
 
-    const { insertedId } = await columnCollection.insertOne(validValues)
+    const insertedValues = {
+      ...validValues,
+      boardId: ObjectId(validValues.boardId),
+    }
+
+    const { insertedId } = await columnCollection.insertOne(insertedValues)
 
     const insertedColumn = await columnCollection.findOne({
       _id: insertedId,
@@ -61,4 +66,26 @@ const update = async (id, data) => {
   }
 }
 
-export const ColumnModel = { createNew, update }
+const pushCardOrder = async (columnId, cardId) => {
+  try {
+    const columnCollection =
+      getInstanceConnection().collection(columnCollectionName)
+
+    const result = await columnCollection.findOneAndUpdate(
+      { _id: ObjectId(columnId) },
+      { $push: { cardOrder: cardId } },
+      { returnOriginal: false }
+    )
+
+    return result.value
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+export const ColumnModel = {
+  columnCollectionName,
+  createNew,
+  update,
+  pushCardOrder,
+}
