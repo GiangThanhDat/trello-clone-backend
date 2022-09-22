@@ -1,5 +1,7 @@
+import cors from "cors"
 import express from "express"
 import { ENV } from "./config/constant"
+import { corsOptions } from "./config/cors"
 import { connect } from "./config/mongodb"
 import { apiV1 } from "./routes/v1"
 
@@ -13,6 +15,9 @@ connect()
 
 const bootServer = () => {
   const app = express()
+
+  app.use(cors(corsOptions))
+
   app.use(express.json())
 
   app.use("/v1", apiV1)
