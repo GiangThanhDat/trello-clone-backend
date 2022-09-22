@@ -131,8 +131,8 @@ const getBoardById = async (id) => {
         },
       ])
       .toArray()
-    console.log("result", result)
-    return result
+
+    return result?.[0]
   } catch (error) {
     throw new Error(error)
   }

@@ -19,6 +19,9 @@ export const COLUMN = {
   TITLE_MAX_LENGTH: 20,
 }
 
+// white list to allow cors
+export const WHITE_LIST = ["http://localhost:3000", "http://localhost:3001"]
+
 //  Environment constants
 export const ENV = {
   DATABASE_NAME: process.env.DATABASE_NAME,
