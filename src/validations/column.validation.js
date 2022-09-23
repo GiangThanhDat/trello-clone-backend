@@ -32,7 +32,10 @@ const update = async (req, res, next) => {
   })
 
   try {
-    await condition.validateAsync(req.body, { abortEarly: false })
+    await condition.validateAsync(req.body, {
+      abortEarly: false,
+      allowUnknown: true,
+    })
     next()
   } catch (error) {
     res.status(HttpStatusCode.BAD_REQUEST).json({

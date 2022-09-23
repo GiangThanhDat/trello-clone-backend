@@ -54,10 +54,16 @@ const update = async (id, data) => {
     const columnCollection =
       getInstanceConnection().collection(columnCollectionName)
 
+    const updateData = {
+      ...data,
+      _id: ObjectId(data._id),
+      boardId: ObjectId(data.boardId),
+    }
+
     const result = await columnCollection.findOneAndUpdate(
       { _id: ObjectId(id) },
-      { $set: data },
-      { returnOriginal: false }
+      { $set: updateData },
+      { returnDocument: "after" }
     )
 
     return result.value
@@ -74,7 +80,7 @@ const pushCardOrder = async (columnId, cardId) => {
     const result = await columnCollection.findOneAndUpdate(
       { _id: ObjectId(columnId) },
       { $push: { cardOrder: cardId } },
-      { returnOriginal: false }
+      { returnDocument: "after" }
     )
 
     return result.value

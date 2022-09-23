@@ -59,7 +59,7 @@ const update = async (id, data) => {
     const result = await cardCollection.findOneAndUpdate(
       { _id: ObjectId(id) },
       { $set: data },
-      { returnOriginal: false }
+      { returnDocument: "after" }
     )
 
     return result.value
