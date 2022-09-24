@@ -53,7 +53,7 @@ const update = async (id, data) => {
     const result = await boardCollection.findOneAndUpdate(
       { _id: ObjectId(id) },
       { $set: data },
-      { returnOriginal: false }
+      { returnDocument: "after" }
     )
 
     return result.value
@@ -70,7 +70,7 @@ const pushColumnOrder = async (boardId, columnId) => {
     const result = await boardCollection.findOneAndUpdate(
       { _id: ObjectId(boardId) },
       { $push: { columnOrder: columnId } },
-      { returnOriginal: false }
+      { returnDocument: "after" }
     )
 
     return result.value
