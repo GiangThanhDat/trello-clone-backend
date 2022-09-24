@@ -89,9 +89,27 @@ const pushCardOrder = async (columnId, cardId) => {
   }
 }
 
+const unshiftCardOrder = async (columnId, cardId) => {
+  try {
+    const columnCollection =
+      getInstanceConnection().collection(columnCollectionName)
+
+    const result = await columnCollection.findOneAndUpdate(
+      { _id: ObjectId(columnId) },
+      { $push: { cardOrder: { $each: [cardId], $position: 0 } } },
+      { returnDocument: "after" }
+    )
+
+    return result.value
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
 export const ColumnModel = {
   columnCollectionName,
   createNew,
   update,
   pushCardOrder,
+  unshiftCardOrder,
 }
