@@ -100,6 +100,20 @@ const getBoardById = async (id) => {
           },
         },
         {
+          $unwind: "$columns._destroy",
+        },
+        {
+          $match: {
+            $and: [
+              {
+                "columns._destroy": {
+                  $eq: false,
+                },
+              },
+            ],
+          },
+        },
+        {
           $lookup: {
             from: CardModel.cardCollectionName,
             localField: `columns._id`,
@@ -107,6 +121,7 @@ const getBoardById = async (id) => {
             as: "cards",
           },
         },
+
         {
           $group: {
             _id: "$_id",
