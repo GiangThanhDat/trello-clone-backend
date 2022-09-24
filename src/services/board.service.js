@@ -23,7 +23,18 @@ const update = async (id, data) => {
 
 const getBoardById = async (id) => {
   try {
-    const result = await BoardModel.getBoardById(id)
+    const board = await BoardModel.getBoardById(id)
+
+    // remove destroyed columns
+    let result = {
+      ...board,
+      columns: board.columns.filter(({ _destroy }) => !_destroy),
+    }
+
+    if (board.columnOrder.length === 0) {
+      // columns is empty
+      return { ...result, columns: [] }
+    }
 
     return result
   } catch (error) {

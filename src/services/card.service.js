@@ -16,6 +16,21 @@ const createNew = async (data) => {
   }
 }
 
+const createNewAtTop = async (data) => {
+  try {
+    const newCard = await CardModel.createNew(data)
+
+    await ColumnModel.unshiftCardOrder(
+      newCard.columnId.toString(),
+      newCard._id.toString()
+    )
+
+    return newCard
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
 const update = async (id, data) => {
   try {
     const newCard = await CardModel.update(id, {
@@ -28,4 +43,4 @@ const update = async (id, data) => {
   }
 }
 
-export const CardService = { createNew, update }
+export const CardService = { createNew, createNewAtTop, update }

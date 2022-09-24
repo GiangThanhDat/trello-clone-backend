@@ -10,7 +10,7 @@ export const BOARD = {
 // card schema constants
 export const CARD = {
   TITLE_MIN_LENGTH: 3,
-  TITLE_MAX_LENGTH: 20,
+  TITLE_MAX_LENGTH: 40,
 }
 
 // column schema constants

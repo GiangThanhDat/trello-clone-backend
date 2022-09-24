@@ -10,6 +10,15 @@ const createNew = async (req, res) => {
   }
 }
 
+const createNewAtTop = async (req, res) => {
+  try {
+    const result = await CardService.createNewAtTop(req.body)
+    res.status(HttpStatusCode.OK).json(result)
+  } catch (error) {
+    res.status(HttpStatusCode.INTERNAL_SERVER).json({ error: error.message })
+  }
+}
+
 const update = async (req, res) => {
   try {
     const { id } = req.params
@@ -20,4 +29,4 @@ const update = async (req, res) => {
   }
 }
 
-export const CardController = { createNew, update }
+export const CardController = { createNew, createNewAtTop, update }
