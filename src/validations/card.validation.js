@@ -25,8 +25,8 @@ const createNew = async (req, res, next) => {
 
 const update = async (req, res, next) => {
   const condition = Joi.object({
-    boardId: Joi.string().required(),
-    columnId: Joi.string().required(),
+    boardId: Joi.string(),
+    columnId: Joi.string(),
     title: Joi.string()
       .min(CARD.TITLE_MIN_LENGTH)
       .max(CARD.TITLE_MAX_LENGTH)
@@ -34,7 +34,10 @@ const update = async (req, res, next) => {
   })
 
   try {
-    await condition.validateAsync(req.body, { abortEarly: false })
+    await condition.validateAsync(req.body, {
+      abortEarly: false,
+      allowUnknown: true,
+    })
     next()
   } catch (error) {
     res.status(HttpStatusCode.BAD_REQUEST).json({
