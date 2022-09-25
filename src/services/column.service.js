@@ -1,4 +1,5 @@
 import { BoardModel } from "../models/board.model"
+import { CardModel } from "../models/card.model"
 import { ColumnModel } from "../models/column.model"
 
 const createNew = async (data) => {
@@ -27,9 +28,15 @@ const update = async (id, data) => {
       delete updateColumnData.cards
     }
 
-    const result = await ColumnModel.update(id, updateColumnData)
+    const updatedColumn = await ColumnModel.update(id, updateColumnData)
 
-    return { ...result, cards }
+    // remove all cards in database of the columns  to be removed
+    if (updatedColumn._destroy) {
+      await CardModel.updateMany(updatedColumn.cardOrder, { _destroy: true })
+      cards = []
+    }
+
+    return { ...updatedColumn, cards }
   } catch (error) {
     throw new Error(error)
   }
