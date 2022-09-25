@@ -54,11 +54,9 @@ const update = async (id, data) => {
     const columnCollection =
       getInstanceConnection().collection(columnCollectionName)
 
-    const updateData = {
-      ...data,
-      _id: ObjectId(data._id),
-      boardId: ObjectId(data.boardId),
-    }
+    const updateData = { ...data, _id: ObjectId(id) }
+
+    if (updateData.boardId) updateData.boardId = ObjectId(updateData.boardId)
 
     const result = await columnCollection.findOneAndUpdate(
       { _id: ObjectId(id) },

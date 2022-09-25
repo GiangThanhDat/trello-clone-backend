@@ -11,6 +11,10 @@ const createNew = async (data) => {
 
 const update = async (id, data) => {
   try {
+    if (data.columns) {
+      delete data.columns
+    }
+
     const result = await BoardModel.update(id, {
       ...data,
       updatedAt: Date.now(),

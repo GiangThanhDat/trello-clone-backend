@@ -24,7 +24,7 @@ const createNew = async (req, res, next) => {
 
 const update = async (req, res, next) => {
   const condition = Joi.object({
-    boardId: Joi.string().required(),
+    boardId: Joi.string(),
     title: Joi.string()
       .min(COLUMN.TITLE_MIN_LENGTH)
       .max(COLUMN.TITLE_MAX_LENGTH)

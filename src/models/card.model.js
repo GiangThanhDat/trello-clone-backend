@@ -56,9 +56,15 @@ const update = async (id, data) => {
     const cardCollection =
       getInstanceConnection().collection(cardCollectionName)
 
+    const updateData = { ...data, _id: ObjectId(id) }
+
+    if (updateData.boardId) updateData.boardId = ObjectId(updateData.boardId)
+
+    if (updateData.columnId) updateData.columnId = ObjectId(updateData.columnId)
+
     const result = await cardCollection.findOneAndUpdate(
       { _id: ObjectId(id) },
-      { $set: data },
+      { $set: updateData },
       { returnDocument: "after" }
     )
 

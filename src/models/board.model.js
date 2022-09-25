@@ -50,9 +50,11 @@ const update = async (id, data) => {
     const boardCollection =
       getInstanceConnection().collection(boardCollectionName)
 
+    const updateData = { ...data, _id: ObjectId(id) }
+
     const result = await boardCollection.findOneAndUpdate(
       { _id: ObjectId(id) },
-      { $set: data },
+      { $set: updateData },
       { returnDocument: "after" }
     )
 
