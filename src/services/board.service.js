@@ -36,7 +36,7 @@ const getBoardById = async (id) => {
       column.cards = column.cards.filter(({ _destroy }) => !_destroy)
     })
 
-    return { ...board, columns: columns }
+    return { ...board, columns }
   } catch (error) {
     throw new Error(error)
   }
