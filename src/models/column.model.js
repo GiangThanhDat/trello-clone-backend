@@ -56,7 +56,7 @@ const update = async (id, data) => {
 
     const updateData = {
       ...data,
-      _id: ObjectId(data._id),
+      _id: ObjectId(id),
       boardId: ObjectId(data.boardId),
     }
 
