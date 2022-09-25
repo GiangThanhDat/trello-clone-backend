@@ -68,4 +68,22 @@ const update = async (id, data) => {
   }
 }
 
-export const CardModel = { cardCollectionName, createNew, update }
+const updateMany = async (ids, data) => {
+  try {
+    const transformIds = ids.map((i) => ObjectId(i))
+    const cardCollection =
+      getInstanceConnection().collection(cardCollectionName)
+
+    const result = await cardCollection.updateMany(
+      { _id: { $in: transformIds } },
+      { $set: data },
+      { returnDocument: "after" }
+    )
+
+    return result
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+export const CardModel = { cardCollectionName, createNew, update, updateMany }

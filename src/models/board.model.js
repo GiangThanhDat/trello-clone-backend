@@ -84,7 +84,7 @@ const getBoardById = async (id) => {
     const result = await getInstanceConnection()
       .collection(boardCollectionName)
       .aggregate([
-        { $match: { _id: ObjectId(id) } },
+        { $match: { _id: ObjectId(id), _destroy: false } },
         {
           $lookup: {
             from: ColumnModel.columnCollectionName,

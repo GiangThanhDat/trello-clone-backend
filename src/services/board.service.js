@@ -25,18 +25,18 @@ const getBoardById = async (id) => {
   try {
     const board = await BoardModel.getBoardById(id)
 
-    // remove destroyed columns
-    let result = {
-      ...board,
-      columns: board.columns.filter(({ _destroy }) => !_destroy),
+    if (board === undefined) {
+      throw new Error("No board data")
     }
 
-    if (board.columnOrder.length === 0) {
-      // columns is empty
-      return { ...result, columns: [] }
-    }
+    // // remove destroyed columns
+    const columns = board.columns.filter(({ _destroy }) => !_destroy)
+    // remove destroyed cards
+    columns.forEach((column) => {
+      column.cards = column.cards.filter(({ _destroy }) => !_destroy)
+    })
 
-    return result
+    return { ...board, columns }
   } catch (error) {
     throw new Error(error)
   }
