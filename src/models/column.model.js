@@ -56,7 +56,9 @@ const update = async (id, data) => {
 
     const updateData = { ...data, _id: ObjectId(id) }
 
-    if (updateData.boardId) updateData.boardId = ObjectId(updateData.boardId)
+    if (updateData.boardId) {
+      updateData.boardId = ObjectId(updateData.boardId)
+    }
 
     const result = await columnCollection.findOneAndUpdate(
       { _id: ObjectId(id) },
