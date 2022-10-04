@@ -20,7 +20,11 @@ export const COLUMN = {
 }
 
 // white list to allow cors
-export const WHITE_LIST = ["http://localhost:3000", "http://localhost:3001"]
+export const WHITE_LIST = [
+  "http://localhost:3000",
+  "https://gthanhdat-trello-clone.web.app",
+  "https://gthanhdat-trello-clone.firebaseapp.com",
+]
 
 //  Environment constants
 export const ENV = {
