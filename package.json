@@ -1,6 +1,9 @@
 {
   "name": "trello-clone-backend",
   "version": "1.0.0",
+  "engines": {
+    "node": "16.17.x"
+  },
   "description": "",
   "main": "src/app.js",
   "scripts": {
