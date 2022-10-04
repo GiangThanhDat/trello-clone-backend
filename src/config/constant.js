@@ -32,4 +32,5 @@ export const ENV = {
   MONGO_CLIENT_URL: process.env.MONGO_CLIENT_URL,
   APP_HOST: process.env.APP_HOST,
   APP_PORT: process.env.APP_PORT,
+  PORT: process.env.PORT,
 }

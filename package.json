@@ -8,6 +8,7 @@
     "eslint": "eslint src",
     "clean": "del -rf build && mkdir build",
     "build-babel": "babel ./src -d ./build/src",
+    "start": "node ./build/src/app.js",
     "build": "npm run clean && npm run build-babel",
     "production": "npm run build && node ./build/src/app.js",
     "dev": "nodemon --exec babel-node ./src/app.js"
