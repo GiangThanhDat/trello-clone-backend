@@ -1,4 +1,4 @@
-import { ColumnService } from "../services/Column.service"
+import { ColumnService } from "../services/column.service"
 import { HttpStatusCode } from "../utilities/constant"
 
 const createNew = async (req, res) => {

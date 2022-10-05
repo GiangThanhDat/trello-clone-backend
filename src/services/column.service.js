@@ -1,4 +1,4 @@
-import { ObjectID } from "bson"
+import { ObjectId } from "mongodb"
 import { BoardModel } from "../models/board.model"
 import { CardModel } from "../models/card.model"
 import { ColumnModel } from "../models/column.model"
@@ -32,7 +32,7 @@ const update = async (id, data) => {
     const updatedColumn = await ColumnModel.update(id, updateColumnData)
 
     await CardModel.updateMany(updatedColumn.cardOrder, {
-      columnId: ObjectID(updateColumnData._id),
+      columnId: ObjectId(updateColumnData._id),
     })
 
     // remove all cards in database of the columns  to be removed
