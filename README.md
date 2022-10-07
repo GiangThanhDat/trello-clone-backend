@@ -12,7 +12,7 @@ The project builds APIs to use for [trello-clone-react](https://github.com/Giang
 
 ## Installation
 
-Install Trello-clone-react with npm
+Install Trello-clone-api with npm
 
 ```bash
   npm install
