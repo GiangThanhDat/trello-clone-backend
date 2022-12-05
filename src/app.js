@@ -21,12 +21,12 @@ const bootServer = () => {
   app.use(express.json())
 
   app.use("/v1", apiV1)
-  // app.listen(ENV.APP_PORT, ENV.APP_HOST, () => {
-  //   // eslint-disable-next-line no-console
-  //   console.log(`Trello-App clone running on ${ENV.APP_HOST}:${ENV.APP_PORT}`)
-  // })
-  app.listen(ENV.PORT, () => {
+  app.listen(ENV.APP_PORT, ENV.APP_HOST, () => {
     // eslint-disable-next-line no-console
-    console.log(`Trello-App clone running on ${ENV.PORT}`)
+    console.log(`Trello-App clone running on ${ENV.APP_HOST}:${ENV.APP_PORT}`)
   })
+  // app.listen(ENV.PORT, () => {
+  //   // eslint-disable-next-line no-console
+  //   console.log(`Trello-App clone running on ${ENV.PORT}`)
+  // })
 }
